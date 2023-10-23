@@ -8,6 +8,8 @@ let chance = "X";
 
 let isGameOver = false;
 
+let count = 0;
+
 
 // Function to change the turn
 const changeTurn = ()=>{
@@ -16,6 +18,12 @@ const changeTurn = ()=>{
 
 // Function to check for a win
 const checkWin = ()=>{
+    if(count === 9){
+        document.querySelector('.info').innerText = "Match Draw";
+        isGameOver = true;
+        gameOver.play();
+    }
+
     let boxTexts = document.getElementsByClassName('boxText');
     let wins = [
         [0,1,2,5,5,0],
@@ -39,6 +47,7 @@ const checkWin = ()=>{
             document.querySelector('.line').style.transform = `translate(${e[3]}vw, ${e[4]}vw) rotate(${e[5]}deg)`;
             document.querySelector('.line').style.width = "22vw";
             document.querySelector('.line').style.height = "3px";
+            gameOver.play();
 
             
         }
@@ -54,6 +63,7 @@ Array.from(boxes).forEach(element =>{
     element.addEventListener('click',()=>{
         if(boxText.innerText === '' && !isGameOver){
             boxText.innerText = chance;
+            count++;
             chance = changeTurn();
             turn.play();
             checkWin();
@@ -75,6 +85,7 @@ reset.addEventListener('click',()=>{
     });
     chance = "X";
     isGameOver = false;
+    count = 0;
     document.getElementsByClassName("info")[0].innerText = "Turn for "+chance;
     document.querySelector('.imgBox').getElementsByTagName('img')[0].style.width = "0px";
     document.querySelector('.line').style.transform = `translate(10vw, 10vw) rotate(0 deg)`;
